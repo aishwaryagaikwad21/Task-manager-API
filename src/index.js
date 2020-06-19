@@ -30,7 +30,7 @@ myFunction()
 
 // const bcrypt = require('bcryptjs');
 // const func = async()=>{
-//  const password = 'PaVd6213@'
+//  
 //  const hashPassword = await bcrypt.hash(password,8)
 //  console.log(password)
 //  console.log(hashPassword)
