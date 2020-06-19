@@ -43,7 +43,7 @@ const userSchema = new mongoose.Schema({
     }]
 })
 
-userSchema.methods.getPublicProfile = function(){
+userSchema.methods.toJSON = function(){
     const user = this
     //get raw object with data attached
     const userObject = user.toObject()

@@ -28,6 +28,17 @@ const myFunction = async()=>{
 }
 myFunction()
 
+const data = {
+    name:'aish'
+}
+data.toJSon = function(){
+    return {}
+    // console.log(this)
+    // return this
+}
+//when res.send() is called express calls JSON.stringify()
+console.log(JSON.stringify(data))
+
 // const bcrypt = require('bcryptjs');
 // const func = async()=>{
 //  

@@ -19,7 +19,7 @@ router.post('/users/login',async (req,res)=>{
         const user = await User.findByCredentials(req.body.email,req.body.password)
         //User = all the users in database and user = particular user
         const token = await user.generateAuthToken()
-        res.send({user:user.getPublicProfile(),token})
+        res.send({user,token})
     }catch(e){
         res.status(400).send(e)
     }
