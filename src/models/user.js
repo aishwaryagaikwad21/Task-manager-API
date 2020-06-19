@@ -43,6 +43,15 @@ const userSchema = new mongoose.Schema({
     }]
 })
 
+userSchema.methods.getPublicProfile = function(){
+    const user = this
+    //get raw object with data attached
+    const userObject = user.toObject()
+    delete userObject.password
+    delete userObject.tokens
+    return userObject
+}
+
 userSchema.methods.generateAuthToken = async function(){
     //calling on specific user
     const user = this
