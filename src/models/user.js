@@ -46,7 +46,7 @@ const userSchema = new mongoose.Schema({
 //we will not create task array in user model instead will use virtual property
 //virtual property is relationship between two entities btn user and task
 
-userSchema.virtual('usertasks',{
+userSchema.virtual('tasks',{
     ref:'Document', //Document model
     localField:'_id',//user id is refered..local data is stored..owner object id
     foreignField:'owner'//name of field on other thing on task

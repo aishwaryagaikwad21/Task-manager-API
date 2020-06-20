@@ -20,19 +20,19 @@ app.listen(port,()=>{
 
 const Task = require('./models/document')
 const findOwnerofTask = async()=>{
-    const task = await Task.findById('5eedf53a938eeb30fce76db1')
-    await task.populate('owner').execPopulate()//populate is used to populate data from relation
-    //above statement will find owner of that particular task
-    //console.log(task.owner)
-    //mongoose can setup relation between two models
-}
-findOwnerofTask()
+     const task = await Task.findById('5eedf53a938eeb30fce76db1')
+     await task.populate('owner').execPopulate()//populate is used to populate data from relation
+     //above statement will find owner of that particular task
+     console.log(task.owner)
+     //mongoose can setup relation between two models
+ }
+ findOwnerofTask()
 
 const User = require('./models/user')
 const findTaskOfOwner = async()=>{
     const user = await User.findById('5eedf01cafae4346dced1c23')
-    await user.populate('userTasks').execPopulate()
-    console.log(user.userTasks)
+    await user.populate('tasks').execPopulate()
+    console.log(user.tasks)
 }
 findTaskOfOwner()
 
