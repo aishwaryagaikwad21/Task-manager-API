@@ -1,9 +1,14 @@
 const express = require('express')
 const route = new express.Router()
 const Document = require('../models/document')
-
-route.post('/task',async (req,res)=>{
-    const docs = new Document(req.body);
+const auth = require('../middleware/auth')
+route.post('/task',auth,async (req,res)=>{
+    //const docs = new Document(req.body);
+    const docs = new Document({
+        //provide our own object
+        ...req.body, //ES6 spread operator-copies all data to object
+        owner:req.user._id
+    })
     try{
         await docs.save()
         res.status(200).send(docs)

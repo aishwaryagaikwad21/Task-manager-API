@@ -18,13 +18,24 @@ app.listen(port,()=>{
     console.log('Server is up on port 8000');
 })
 
+const Task = require('./models/document')
+const main = async()=>{
+    const task = await Task.findById('5eedf53a938eeb30fce76db1')
+    await task.populate('owner').execPopulate()//populate is used to populate data from relation
+    //above statement will find owner of that particular task
+    console.log(task.owner)
+    //mongoose can setup relation between two models
+}
+main()
+
 const jwt = require('jsonwebtoken')
 const myFunction = async()=>{
     const token = jwt.sign({ _id:'abc3' },'thisismycourse',{expiresIn:'7 days'})
     //console.log('token is')
-    console.log(token)
+    //console.log(token)
     const data = jwt.verify(token,'thisismycourse') //user is authenticated properly
-    console.log(data)
+    
+    //console.log(data)
 }
 myFunction()
 

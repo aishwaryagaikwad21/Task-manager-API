@@ -1,10 +1,18 @@
 const mongoose = require('mongoose');
 const documentSchema = new mongoose.Schema({
     description:{
-        type:String
+        type:String,
+        required:true
     },
     status:{
-        type:Boolean
+        type:Boolean,
+        default:false
+    },
+    owner:{
+        type:mongoose.Schema.Types.ObjectId, //data stored will be object id
+        required:true,
+        //helper function
+        ref:'User' //reference to user model
     }
 })
 const Document = mongoose.model('Document',documentSchema)
