@@ -23,7 +23,7 @@ const findOwnerofTask = async()=>{
      const task = await Task.findById('5eedf53a938eeb30fce76db1')
      await task.populate('owner').execPopulate()//populate is used to populate data from relation
      //above statement will find owner of that particular task
-     console.log(task.owner)
+     //console.log(task.owner)
      //mongoose can setup relation between two models
  }
  findOwnerofTask()
@@ -32,7 +32,7 @@ const User = require('./models/user')
 const findTaskOfOwner = async()=>{
     const user = await User.findById('5eedf01cafae4346dced1c23')
     await user.populate('tasks').execPopulate()
-    console.log(user.tasks)
+    //console.log(user.tasks)
 }
 findTaskOfOwner()
 
@@ -56,7 +56,7 @@ data.toJSon = function(){
     // return this
 }
 //when res.send() is called express calls JSON.stringify()
-console.log(JSON.stringify(data))
+//console.log(JSON.stringify(data))
 
 // const bcrypt = require('bcryptjs');
 // const func = async()=>{

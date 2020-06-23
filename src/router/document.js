@@ -17,22 +17,21 @@ route.post('/task',auth,async (req,res)=>{
     }
 })
 
-route.get('/task',async(req,res)=>{
+route.get('/task',auth,async(req,res)=>{
     try{
-        const tasks = await Document.find({})
-        if(!tasks){
-            return res.status(404).send()
-        }
-        res.status(200).send(tasks)
+        const tasks = await Document.find({owner:req.user._id})
+        await req.user.populate('tasks').execPopulate()
+        res.status(200).send(req.user.tasks)
     }catch(e){
         res.status(500).send()
     }
 })
 
-route.get('/task/:id', async(req,res)=>{
+route.get('/task/:id',auth,async(req,res)=>{
     try{
-        const _id = req.params.id
-        const task = await Document.findById(_id)
+         const _id = req.params.id
+         const task = await Document.findById(_id)
+       // const task = await Document.findOne({ _id,owner:req.user._id})
         if(!task){
             return res.status(400).send()
         }
