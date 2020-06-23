@@ -21,6 +21,11 @@ route.post('/task',auth,async (req,res)=>{
 //for pagination use options property GET/tasks?limit=10 skip=0
 route.get('/task',auth,async(req,res)=>{
     const match={}
+    const sort = {}
+    if(req.query.sortBy){
+        const parts = req.query.sortBy.split(':')
+        sort[parts[0]] = parts[1] === 'desc'?-1:1
+    }
     if(req.query.status){
         match.status = req.query.status === 'true'
     }
@@ -31,7 +36,8 @@ route.get('/task',auth,async(req,res)=>{
             match,
             options:{
                limit:parseInt(req.query.limit),
-               skip:parseInt(req.query.skip)
+               skip:parseInt(req.query.skip),
+               sort
             }
         }).execPopulate()
         res.status(200).send(req.user.tasks)
