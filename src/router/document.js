@@ -65,9 +65,10 @@ route.patch('/task/:id',auth,async(req,res)=>{
     }
 })
 
-route.delete('/task/:id',async(req,res)=>{
+route.delete('/task/:id',auth,async(req,res)=>{
     try{
-        const task = await Document.findByIdAndDelete(req.params.id)
+        //const task = await Document.findByIdAndDelete({_id:req.params.id,owner:req.user._id})
+        const task = await Document.findOneAndDelete({_id:req.params.id,owner:req.user._id})
         if(!task){
             return res.status(404).send()
         }
