@@ -19,22 +19,22 @@ app.listen(port,()=>{
 })
 
 const Task = require('./models/document')
- const findOwnerofTask = async()=>{
-      const task = await Task.findById('5ef1c4bbc5383f152862870a')
-      await task.populate('owner').execPopulate()//populate is used to populate data from relation
-      //above statement will find owner of that particular task
-      //console.log(task.owner)
-      //mongoose can setup relation between two models
-  }
-  findOwnerofTask()
+//  const findOwnerofTask = async()=>{
+//       const task = await Task.findById('5ef1c4bbc5383f152862870a')
+//       await task.populate('owner').execPopulate()//populate is used to populate data from relation
+//       //above statement will find owner of that particular task
+//       //console.log(task.owner)
+//       //mongoose can setup relation between two models
+//   }
+//   findOwnerofTask()
 
- const User = require('./models/user')
- const findTaskOfOwner = async()=>{
-     const user = await User.findById('5ef1c48cc5383f1528628707')
-     await user.populate('tasks').execPopulate()
-     //console.log(user.tasks)
- }
- findTaskOfOwner()
+//  const User = require('./models/user')
+//  const findTaskOfOwner = async()=>{
+//      const user = await User.findById('5ef1c48cc5383f1528628707')
+//      await user.populate('tasks').execPopulate()
+//      //console.log(user.tasks)
+//  }
+//  findTaskOfOwner()
 
 const jwt = require('jsonwebtoken')
 const myFunction = async()=>{

@@ -43,6 +43,8 @@ const userSchema = new mongoose.Schema({
         required:true
         }
     }]
+},{
+    timestamps:true
 })
 
 //we will not create task array in user model instead will use virtual property

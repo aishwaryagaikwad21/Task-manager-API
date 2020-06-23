@@ -14,6 +14,8 @@ const documentSchema = new mongoose.Schema({
         //helper function
         ref:'User' //reference to user model
     }
+},{
+    timestamps:true
 })
 const Document = mongoose.model('Document',documentSchema)
 

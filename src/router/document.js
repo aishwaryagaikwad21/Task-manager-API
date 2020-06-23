@@ -17,10 +17,19 @@ route.post('/task',auth,async (req,res)=>{
     }
 })
 
+//GET /task?status=true
+
 route.get('/task',auth,async(req,res)=>{
+    const match={}
+    if(req.query.status){
+        match.status = req.query.status === 'true'
+    }
     try{
         const tasks = await Document.find({owner:req.user._id})
-        await req.user.populate('tasks').execPopulate()
+        await req.user.populate({
+            path:'tasks',
+            match
+        }).execPopulate()
         res.status(200).send(req.user.tasks)
     }catch(e){
         res.status(500).send()
