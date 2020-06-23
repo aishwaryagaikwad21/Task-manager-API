@@ -18,7 +18,7 @@ route.post('/task',auth,async (req,res)=>{
 })
 
 //GET /task?status=true
-
+//for pagination use options property GET/tasks?limit=10 skip=0
 route.get('/task',auth,async(req,res)=>{
     const match={}
     if(req.query.status){
@@ -28,7 +28,11 @@ route.get('/task',auth,async(req,res)=>{
         const tasks = await Document.find({owner:req.user._id})
         await req.user.populate({
             path:'tasks',
-            match
+            match,
+            options:{
+               limit:parseInt(req.query.limit),
+               skip:parseInt(req.query.skip)
+            }
         }).execPopulate()
         res.status(200).send(req.user.tasks)
     }catch(e){
