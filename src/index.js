@@ -14,6 +14,25 @@ const port = process.env.PORT || 8000;
      onError:function(err,next){
          console.log('error',err)
          next(err);
+     },
+     limits:{
+         fileSize:1000000 //1 MB
+     },
+     fileFilter(req,file,cb){ //cb tells multers when filtering is completed
+        if(file.originalname.endsWith('.pdf')){
+            cb(undefined,true)
+            
+        }
+        else if(file.originalname.match(/\.(docx|doc)$/)){ //using regex
+            cb(undefined,true) 
+        }
+        else{
+            return cb(new Error('Please upload a pdf or word document'))
+        }
+        
+        // cb(new Error('File must be a pdf'))
+        // cb(undefined,true) //accept the upload
+        // cb(undefined,false) //reject the upload
      }
  })
  app.post('/upload',upload.single('uploads'),(req,res)=>{

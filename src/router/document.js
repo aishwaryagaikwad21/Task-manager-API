@@ -2,6 +2,7 @@ const express = require('express')
 const route = new express.Router()
 const Document = require('../models/document')
 const auth = require('../middleware/auth')
+const multer = require('multer')
 route.post('/task',auth,async (req,res)=>{
     //const docs = new Document(req.body);
     const docs = new Document({
@@ -95,6 +96,12 @@ route.delete('/task/:id',auth,async(req,res)=>{
     }catch(e){
         res.status(500).send()
     }
+})
+const upload = multer({
+    dest:'profile'
+})
+route.post('/users/me/profile',upload.single('profile'),(req,res)=>{
+    res.send()
 })
 
 module.exports = route
