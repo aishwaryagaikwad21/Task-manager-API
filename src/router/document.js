@@ -98,10 +98,39 @@ route.delete('/task/:id',auth,async(req,res)=>{
     }
 })
 const upload = multer({
-    dest:'profile'
+    //dest:'profile',
+    limits:{
+        fileSize:1000000 //1 MB
+    },
+    fileFilter(req,file,cb){ //cb tells multers when filtering is completed
+       if(file.originalname.endsWith('.pdf')){
+           cb(undefined,true)
+           
+       }
+       else if(file.originalname.match(/\.(docx|doc)$/)){ //using regex
+           cb(undefined,true) 
+       }
+       else{
+           return cb(new Error('Please upload a pdf or word document'))
+       }
+       
+       // cb(new Error('File must be a pdf'))
+       // cb(undefined,true) //accept the upload
+       // cb(undefined,false) //reject the upload
+    }
 })
-route.post('/users/me/profile',upload.single('profile'),(req,res)=>{
+route.post('/users/me/profile',auth,upload.single('profile'), async (req,res)=>{
+    req.user.profile = req.file.buffer
+    await req.user.save()
     res.send()
+},(error,req,res,next)=>{
+    res.status(400).send({error:error.message})
+})
+
+route.delete('/users/me/profile',auth,async(req,res)=>{
+    req.user.profile = undefined
+    await req.user.save()
+    res.status(200).send()
 })
 
 module.exports = route

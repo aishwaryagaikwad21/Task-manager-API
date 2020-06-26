@@ -35,12 +35,15 @@ const port = process.env.PORT || 8000;
         // cb(undefined,false) //reject the upload
      }
  })
+ 
  app.post('/upload',upload.single('uploads'),(req,res)=>{
      try{
         res.status(200).send()
      }catch(e){
         res.status(404).send(e)
      }
+ },(error,req,res,next)=>{
+     res.status(400).send({error:error.message})
  })
 //use form-data in postman
 
