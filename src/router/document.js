@@ -3,6 +3,8 @@ const route = new express.Router()
 const Document = require('../models/document')
 const auth = require('../middleware/auth')
 const multer = require('multer')
+const User = require('../models/user')
+const sharp = require('sharp')
 route.post('/task',auth,async (req,res)=>{
     //const docs = new Document(req.body);
     const docs = new Document({
@@ -110,6 +112,9 @@ const upload = multer({
        else if(file.originalname.match(/\.(docx|doc)$/)){ //using regex
            cb(undefined,true) 
        }
+       else if(file.originalname.match(/\.(jpg|png)$/)){
+           cb(undefined,true)
+       }
        else{
            return cb(new Error('Please upload a pdf or word document'))
        }
@@ -120,7 +125,8 @@ const upload = multer({
     }
 })
 route.post('/users/me/profile',auth,upload.single('profile'), async (req,res)=>{
-    req.user.profile = req.file.buffer
+    const buffer = await sharp(req.file.buffer).resize({width:250,height:250}).png().toBuffer() //converts to png
+    req.user.profile = buffer
     await req.user.save()
     res.send()
 },(error,req,res,next)=>{
@@ -131,6 +137,20 @@ route.delete('/users/me/profile',auth,async(req,res)=>{
     req.user.profile = undefined
     await req.user.save()
     res.status(200).send()
+})
+
+route.get('/users/:id/profile',async(req,res)=>{
+    try{
+        const user = await User.findById(req.params.id)
+        if(!user || !user.profile){
+            throw new Error()
+        }
+
+        res.set('Content-Type','image/png')
+        res.send(user.profile)
+    }catch(e){
+        res.status(400).send()
+    }
 })
 
 module.exports = route
